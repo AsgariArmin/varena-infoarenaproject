@@ -56,7 +56,7 @@ if(page != null)
 
 	iframe.style.display = "none";
 	document.body.appendChild(iframe);
-	iframe.src = "http://www.infoarena.ro" + window.location.pathname.toLowerCase();
+	iframe.src = "http://www.varena.ro" + window.location.pathname.toLowerCase();
 }
 
 var interval = 5000;
@@ -64,7 +64,7 @@ var interval = 5000;
 window.setInterval(function(){
 	var d = new Date();
 	var hueAngle = Math.floor((d.getTime()) % interval / interval * 360);
-	document.getElementById('infoarena').setAttribute('style', 'filter: hue-rotate(' + hueAngle + 'deg);');
+	document.getElementById('varena').setAttribute('style', 'filter: hue-rotate(' + hueAngle + 'deg);');
 	//document.getElementById('header').setAttribute('style', 'filter: hue-rotate(' + hueAngle + 'deg);');
 	//document.getElementById('topnav').setAttribute('style', 'filter: hue-rotate(' + hueAngle + 'deg);');
 	//document.getElementById('footer').setAttribute('style', 'filter: hue-rotate(' + hueAngle + 'deg);');
