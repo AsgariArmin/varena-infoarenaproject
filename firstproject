@@ -1,0 +1,71 @@
+function get_style(color) {
+	return "<span style='color: " + color + "; font-weight: 900; text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>$1</span>"
+}
+
+function add_li(txt, lnk) {
+	var htabs = document.getElementsByClassName('htabs')[0];
+	var li = document.createElement('li');
+	li.setAttribute('style', 'padding: 0px 0px 0px 5px;');
+	var n = document.createElement('strong');
+	n.setAttribute('style', 'color: red;');
+	n.appendChild(document.createTextNode('New! '));
+	var a = document.createElement('a');
+	a.appendChild(n);
+	a.appendChild(document.createTextNode(txt));
+	a.setAttribute('href', lnk);
+	a.setAttribute('target', '_blank');
+	
+	li.appendChild(a);
+	htabs.appendChild(li);
+}
+
+var page = document.getElementsByClassName('wiki_text_block')[2];
+if(page != null)
+{
+	var content = page.innerHTML;
+
+	content = content.replace(/(aur)/gi, get_style("gold"));
+	content = content.replace(/(argint)/gi, get_style("silver"));
+	content = content.replace(/(bronz)/gi, get_style("chocolate"));
+	content = content.replace(/(locul \w+)/gi, get_style("#e5e4e2"));
+	page.innerHTML = content;
+	var [a, b, c] = document.getElementsByClassName('htabs')[0].children;
+	a.children[0].setAttribute("target", "awframe");
+	b.children[0].setAttribute("target", "awframe");
+	c.children[0].setAttribute("target", "awframe");
+	// workaround old accounts using http
+	a.children[0].setAttribute("href",
+	a.children[0].getAttribute("href").replace('http://varena.ro','').replace('https://varena.ro','').replace('https://www.varena.ro','').replace('http://www.varena.ro',''));
+	b.children[0].setAttribute("href",
+	b.children[0].getAttribute("href").replace('http://varena.ro','').replace('https://varena.ro','').replace('https://www.varena.ro','').replace('http://www.varena.ro',''));
+	c.children[0].setAttribute("href",
+	c.children[0].getAttribute("href").replace('http://varena.ro','').replace('https://varena.ro','').replace('https://www.varena.ro','').replace('http://www.varena.ro',''));
+	var active = a;
+
+	var iframe = document.createElement("iframe");
+	iframe.setAttribute("name", "awframe");
+	iframe.onload = function() {
+		document.body.getElementsByClassName("wiki_text_block")[2].innerHTML = iframe.contentDocument.body.getElementsByClassName("wiki_text_block")[2].innerHTML;
+		active.setAttribute("class", "");
+		var href = iframe.contentWindow.location.href;
+		if (href == a.children[0].href) active = a;
+		if (href == b.children[0].href) active = b;
+		if (href == c.children[0].href) active = c;
+		active.setAttribute("class", "active");
+	}
+
+	iframe.style.display = "none";
+	document.body.appendChild(iframe);
+	iframe.src = "http://www.infoarena.ro" + window.location.pathname.toLowerCase();
+}
+
+var interval = 5000;
+
+window.setInterval(function(){
+	var d = new Date();
+	var hueAngle = Math.floor((d.getTime()) % interval / interval * 360);
+	document.getElementById('infoarena').setAttribute('style', 'filter: hue-rotate(' + hueAngle + 'deg);');
+	//document.getElementById('header').setAttribute('style', 'filter: hue-rotate(' + hueAngle + 'deg);');
+	//document.getElementById('topnav').setAttribute('style', 'filter: hue-rotate(' + hueAngle + 'deg);');
+	//document.getElementById('footer').setAttribute('style', 'filter: hue-rotate(' + hueAngle + 'deg);');
+}, 1);
